@@ -23,7 +23,10 @@
         "routing_key": null,
         "expires": null,
         "enabled": true,
-        "description": ""
+        "description": "",
+        "last_run_at": null,
+        "total_run_count": 0,
+        "date_changed": "2018-06-03T14:59:22.177",
     }
 }
 ]
