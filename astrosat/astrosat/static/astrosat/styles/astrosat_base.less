@@ -1,0 +1,54 @@
+/*@import (less) "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css";*/
+@import "bootstrap/bootstrap.less";
+@import "astrosat_variables.less";
+
+#site {
+    .row;
+    .alert;
+    .alert-danger;
+    .text-center;
+}
+
+#astrosat {
+
+    .header {
+        div:nth-child(1) { .text-left; }
+        div:nth-child(2) { .text-center; }
+        div:nth-child(3) { .text-right; }
+
+        img#logo {
+
+        }
+
+    }  /* /#header */
+
+    .footer {
+        .text-center;
+        font-style: italic;
+        font-size: 90%;
+        margin-top: 12px;
+        border-top: 1px solid @brand-info;
+        clear: both;
+
+    }  /* /#footer */
+
+    .content {
+
+        .title {
+            .h3;
+        }
+
+        .label {
+            padding: 4px;
+        }
+
+        .disabled {
+            /*color: @brand-disabled;*/
+            opacity: 0.5;
+            &:hover, &:active { color: @link-color; }
+            text-decoration: none;
+            cursor: not-allowed;
+        }
+    }
+
+}

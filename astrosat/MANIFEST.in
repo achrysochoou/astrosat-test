@@ -1,0 +1,8 @@
+include LICENSE
+include README.rst
+include astrosat.conf.TEMPLATE
+recursive-include astrosat/fixtures *
+recursive-include astrosat/migrations *
+recursive-include astrosat/static *
+recursive-include astrosat/templates *
+

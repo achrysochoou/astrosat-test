@@ -1,0 +1,27 @@
+[settings]
+secret_key=mySecretKey
+static_root=/path/to/static/root/
+allowed_hosts=list,of,allowed,hosts
+
+[database]
+engine=django.db.backends.sqlite3
+name=database_name
+# these are only needed for postgresql...
+#user=database_owner
+#password=database_owner_password
+#host=127.0.0.1
+#port=5432
+
+[tasks]
+broker=rabbitmq
+
+[virtualenv]
+path=/path/to/virtual/env
+
+[help]
+email=whoToCallForHelp
+code_url=https://github.com/allynt/astrosat
+
+[debug]
+debug=true
+cdn=false

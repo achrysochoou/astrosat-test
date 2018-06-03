@@ -1,0 +1,29 @@
+[
+{
+    "model": "django_celery_beat.intervalschedule",
+    "pk": 1,
+    "fields": {
+        "every": 5,
+        "period": "minutes"
+    }
+},
+{
+    "model": "django_celery_beat.periodictask",
+    "pk": 1,
+    "fields": {
+        "name": "import facilities every so often",
+        "task": "astrosat.tasks.import_facilities",
+        "interval": 1,
+        "crontab": null,
+        "solar": null,
+        "args": "[]",
+        "kwargs": "{}",
+        "queue": null,
+        "exchange": null,
+        "routing_key": null,
+        "expires": null,
+        "enabled": true,
+        "description": ""
+    }
+}
+]

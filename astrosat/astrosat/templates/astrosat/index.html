@@ -1,0 +1,90 @@
+{# index.html #}
+
+{% extends "astrosat/base.html" %}
+
+{% load staticfiles %}
+{% load compress %}
+{% load astrosat_tags %}
+
+{% block content %}
+
+    <div class="title">Django Test Application</div>
+
+
+    <div ng-app="FacilitiesApp">
+    <div ng-controller="FacilitiesController as facilities_controller">
+
+    <div class="well">
+
+        <ul>
+            <li>
+                <a target="_blank" href="https://docs.google.com/a/astrosat.space/document/d/1xaIryjaKYpA8D20hyCKCs3cLXHjbP-57SHz_vkkVmB0/edit?usp=drive_web">
+                    the spec
+                    <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+                </a>
+            </li>
+            <li>
+                <a target="_self" href="{% url 'notes' %}">
+                    some notes about the application
+                </a>
+            </li>
+            <li>
+                <a target="_self" href="/admin/astrosat/facility" ng-class="{disabled: !facilities_controller.is_admin}" ng-click="facilities_controller.disable_event($event, !facilities_controller.is_admin)">
+                    edit Facilities via the Django Admin Console
+                </a>
+                <br/>
+                (admin users only, <em>obviously</em>)
+            </li>
+            <li>
+                endpoint to serve <u>active</u> Facilities data
+                [<a target="_self" href="{% url 'facilities-list' %}?format=json">raw JSON</a>]
+                [<a target="_self" href="{% url 'facilities-list' %}?format=api">DRF API</a>]
+            </li>
+        </ul>
+
+    </div>
+
+    <div ng-cloak>
+
+        {# AngularJS & Django both use the same syntax for variables: "{{ }}" #}
+        {# therefore, I need to turn off Django-processing while I'm playing w/ AngularJS #}
+        {# hence the verbatim tag below #}
+
+        {% verbatim ng %}
+
+            <ul class="list-group col-md-6">
+                <li class="list-group-item clearfix">
+                    <button type="button" class="btn btn-info pull-right"
+                            ng-click="facilities_controller.import_facilities()"
+                            ng-disabled="facilities_controller.blocking()">
+                        import Facilities <u>now</u>
+                    </button>
+                </li>
+                <li class="list-group-item">
+                    Facilities last imported on:
+                    <span class="badge">{{ facilities_controller.tasks[0].date_done | date: "dd MMMM yyyy, HH:MM:ss.sss" }}</span>
+                </li>
+                <li class="list-group-item">
+                    total number of <u>active</u> Facilties:
+                    <span class="badge">{{ facilities_controller.facilities.length }}</span>
+                </li>
+            </ul>
+
+        {% endverbatim ng %}
+
+    </div>
+
+    </div>
+    </div>
+
+{% endblock %}  {# /content #}
+
+{% block scripts %}
+    {{ block.super }}
+        <script type="text/javascript" src="{% static 'astrosat/scripts/astrosat_ng_index.js' %}"></script>
+        <script language="javascript" type="text/javascript">
+
+            var is_admin = {{ is_admin|jsonify }};
+
+        </script>
+{% endblock %}  {# /scripts #}

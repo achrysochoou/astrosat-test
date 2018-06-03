@@ -1,0 +1,50 @@
+[
+{
+    "model": "sites.site",
+    "pk": 1,
+    "fields": {
+        "domain": "example.com",
+        "name": "example.com"
+    }
+},
+{
+    "model": "sites.site",
+    "pk": 2,
+    "fields": {
+        "domain": "localhost:8000",
+        "name": "localhost"
+    }
+},
+{
+    "model": "sites.site",
+    "pk": 3,
+    "fields": {
+        "domain": "localhost:8001",
+        "name": "test"
+    }
+},
+{
+    "model": "astrosat.astrosatsite",
+    "pk": 1,
+    "fields": {
+        "site": 1,
+        "type": "LOCAL"
+    }
+},
+{
+    "model": "astrosat.astrosatsite",
+    "pk": 2,
+    "fields": {
+        "site": 2,
+        "type": "LOCAL"
+    }
+},
+{
+    "model": "astrosat.astrosatsite",
+    "pk": 3,
+    "fields": {
+        "site": 3,
+        "type": "TEST"
+    }
+}
+]
