@@ -21,14 +21,41 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-CONF_PATH = os.path.join(os.path.expanduser('~'), '.config', 'astrosat.conf')
-parser = ConfigParser({
-    # these are default values (in-case they're not specified in the config file)...
-    "debug": "false",
-    "cdn": "true",
-})
-parser.read(CONF_PATH)
+# FOR THE PURPOSES OF THIS TEST,
+# I AM NOT ASKING USERS TO CREATE A CONFIG FILE;
+# I'LL JUST DO IT FOR THEM HERE...
 
+# CONF_PATH = os.path.join(os.path.expanduser('~'), '.config', 'astrosat.conf')
+# parser = ConfigParser()
+# parser.read(CONF_PATH)
+
+config_string = """
+[settings]
+secret_key=1p@y9!m@@%o3*o4-u*x)!-rnn*3^ct9c1cswa4w)r9g^1(@(k4
+static_root={STATIC_ROOT}
+allowed_hosts=localhost
+
+[database]
+engine=django.db.backends.sqlite3
+name={DATABASE_NAME}
+
+[tasks]
+broker=rabbitmq
+
+[help]
+email=allyn.treshansky@gmail.com
+code_url=https://github.com/allynt/astrosat
+
+[debug]
+debug=false
+cdn=true
+""".format(
+    STATIC_ROOT=os.path.join(BASE_DIR, "static"),
+    DATABASE_NAME=os.path.join(BASE_DIR, "db.sqlite3"),
+)
+parser = ConfigParser()
+parser.read_string(config_string)
+# ...PLEASE RESUME YOU'RE NORMAL DJANGO-ING
 
 SECRET_KEY = parser.get('settings', 'secret_key', raw=True)
 DEBUG = parser.getboolean('debug', 'debug')
