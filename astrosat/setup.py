@@ -17,6 +17,7 @@ REQUIREMENTS = [
     "django-celery-beat==1.1.1",
     "django-celery-results==1.0.1",
     "django-compressor==2.2",
+    "django-crispy-forms==1.7.2",
     "django-filter==1.1.0",
     "djangorestframework==3.8.2",
     "idna==2.6",
