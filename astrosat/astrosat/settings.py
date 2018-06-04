@@ -47,7 +47,7 @@ email=allyn.treshansky@gmail.com
 code_url=https://github.com/allynt/astrosat
 
 [debug]
-debug=false
+debug=true
 cdn=true
 """.format(
     STATIC_ROOT=os.path.join(BASE_DIR, "static"),

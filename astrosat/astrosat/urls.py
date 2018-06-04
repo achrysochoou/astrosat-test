@@ -61,7 +61,9 @@ urlpatterns = [
     path('services/', include(service_urls)),
     path('api/', include(api_urls)),
 
-    path ('notes/', notes, name="notes"),
+    path('notes/', notes, name="notes"),
+
+    path('test/', test_view, name="test"),
 
     path('', index, name="index"),
 
