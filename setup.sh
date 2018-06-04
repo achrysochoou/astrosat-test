@@ -1,22 +1,41 @@
 #!/bin/sh
 
+#########
+# usage #
+#########
+
+USAGE="Usage: `basename $0` [-d <install directory> ] [-v <virtual environment directory>] [-h (help)]"
+
+########
+# vars #
+########
+
 INSTALL_DIR="astrosat-test-repository"
 VIRTUAL_ENV="astrosat-test-env"
 
-while getopts d:e: OPT
+############
+# get args #
+############
+
+while getopts d:e:h OPT
 do
   case $OPT in
     d) INSTALL_DIR="$OPTARG";;
     v) VIRTUAL_ENV="$OPTARG";;
+    h) echo $USAGE;
+       exit;;
     *) echo $USAGE>&2;
        exit;;
   esac
 done
 
+############
+# do stuff #
+############
+
 git clone https://github.com/allynt/astrosat-test.git $INSTALL_DIR
 
-#mkdir -p ~/.config
-#cp $INSTALL_DIR/astrosat.conf.TEMPLATE ~/.config/astrosat.conf
+# TODO: THIS BIT SHOULD BE OPTIONAL
 sudo apt-get install -y erlang
 sudo apt-get install rabbitmq-server
 sudo systemctl enable rabbitmq-server
@@ -36,6 +55,10 @@ astrosat-test loaddata $INSTALL_DIR/astrosat/astrosat/fixtures/tasks.json
 astrosat-test collectstatic --noinput
 astrosat-test compress
 astrosat-test createsuperuser
+
+#######################
+# hooray, you're done #
+#######################
 
 echo "Hooray, you're done"
 echo "now just activate the virtual environment: '. $VIRTUAL_ENV/bin/activate'"
