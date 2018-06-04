@@ -35,6 +35,7 @@ Installation
  -  run `python astrosat/manage.py loaddata astrosat/astrosat/fixtures/tasks.json`
  -  run `python astrosat/manage.py collectstatic --noinput`
  -  run `python astrosat/manage.py compress`
+ -  run `python astrosat/manage.py createsuperuser`
  -  run `python astrosat/manage.py celery_worker`
  -  run `python astrosat/manage.py runserver`
 

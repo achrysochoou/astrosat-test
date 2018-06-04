@@ -35,9 +35,10 @@ astrosat-test loaddata $INSTALL_DIR/astrosat/astrosat/fixtures/sites.json
 astrosat-test loaddata $INSTALL_DIR/astrosat/astrosat/fixtures/tasks.json
 astrosat-test collectstatic --noinput
 astrosat-test compress
+astrosat-test createsuperuser
 
 echo "Hooray, you're done"
-echo "now just active the virtual environment: '. $VIRTUAL_ENV/bin/activate'"
+echo "now just activate the virtual environment: '. $VIRTUAL_ENV/bin/activate'"
 echo "make sure that the task broker is running: 'astrosat-test celery_worker'"
 echo "run the django server: 'astrosat-test runserver'"
 echo "and goto 'http://localhost:8000"

@@ -13,7 +13,7 @@
         <div class="panel-heading" role="tab" id="heading-01">
           <h4 class="panel-title">
             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-01" aria-expanded="true" aria-controls="collapse-01">
-              Isn't this a bit overkill?
+              This is a lot of code, isn't it?
             </a>
           </h4>
         </div>
@@ -24,22 +24,24 @@
             </p>
             <p>
               There is code for an external configuration file to be read by "astrostat/settings.py".
-              However, as the spec stated that installation should be done via a single script, I just hard-coded a <code>ConfigurationParser</code> in the file.
+              However, as the spec stated that installation should be done via a single script, I just hard-coded a <code>ConfigurationParser</code> in that file.
             </p>
             <p>
               There are some custom context processors and middleware.  The former allows me to easily access settings variables in Django templates - things like "DEBUG" and "CDN".
               The latter allows me to dynamically work out which type of <code>Site</code> I am dealing with; look at "astrosat/models/models_sites.py" for more details.
+              I use this to distinguish between DEV and PROD sites for users and testers.
             </p>
             <p>
-              Speaking of CDN, I can choose to use a Content Delivery Network for some static resources or load them locally.
+              Speaking of CDN, I can choose to use a Content Delivery Network for some static resources or load them locally by changing a flag in the configuration file.
               I do this as a matter of habit because I never know when I'll be stranded without a network connection but with a burning desire to code.
             </p>
             <p>
-              I also make use of <code>django-compressor</code> to minify and pre-compile static files.  It's not much code, so minification probably doesn't make much of a difference.
-              However, I like using LESS instead of pure CSS for styling so that has to be compiled somehow.  Incidentally, Bootstrap4 has moved to SASS so I guess I'll be learning that soon.
+              I also make use of <code>django-compressor</code> to minify and pre-compile static files.  There's not much CSS or JS here, so minification probably doesn't make much of a difference.
+              However, I like using LESS instead of pure CSS for styling and that has to be compiled somehow.
+              Incidentally, Bootstrap4 has moved to SASS so I guess I'll be learning that soon.
             </p>
             <p>
-              Speaking of Bootstrap, there is a lot more than pure Django in this project.  When I first started playing with Django, it's built-in forms were fine.
+              Speaking of Bootstrap, there is more than pure Django in this project.  When I first started playing with Django, it's built-in forms were fine.
               But as my models - and, by extension, forms - grew in complexity, the code inefficiently spent loads of time rendering forms.
               These days, I only use Django Models in the backend and rely on Django-Rest-Framework to serialize them to JSON and serve them via a RESTful API.
               On the frontend, I prefer AngularJS in my templates rather than pure Django.
@@ -83,17 +85,18 @@
         <div id="collapse-03" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-03">
           <div class="panel-body">
             <p>
-                Django does most of this for you simply by registering a <code>ModelAdmin</code> class with the <code>Facility</code> class (see "astrosat/admin/admin_facilitiespy").
+                Django does most of this for you simply by registering a <code>ModelAdmin</code> class with the <code>Facility</code> class (see "astrosat/admin/admin_facilities.py").
             </p>
             <p>
                 The spec states that I should prevent users from deleting or adding Facilities.  This was simple to do by overriding the <code>has_add_permission</code> and <code>has_delete_permission</code> from the <code>FacilityAdmin</code> class.
-                In addition, I had to disable the <code>delete_selected</code> action available in batch-editing mode. Rather than set the actions of <code>FacilityAdmin</code> to None, as suggested in the Django documentation, I overrode the <code>get_actions</code> method to explicitly remove just that action, in case others were added at some future date.
+                In addition, I had to disable the <code>delete_selected</code> action available in batch-editing mode.
+                Rather than set the actions of <code>FacilityAdmin</code> to None, as suggested in the Django documentation, I overrode the <code>get_actions</code> method to explicitly remove just that action, in case others were added at some future date.
             </p>
             <p>
               Only Admin users should be able to edit facilities.
               Obviously, if they navigate directly to the Admin Console unauthenticated users will be prompted to login and everything will work as above.
               However, on the "index" page I explicitly disable the link to the Admin Console by passing a template context variable and binding it to a variable in the AngularJS Controller associated with that page.
-              That variable is used to conditionally apply a class which makes it no longer look like a link, and the function <code>disable_event</code> in "astrosat/static/astrosat/scripts/ng_index.js" potentially disables the click event.
+              That variable is used to conditionally apply a class which makes it no longer look like a link, and the function <code>disable_event</code> in "astrosat/static/astrosat/scripts/astrosat_ng_index.js" potentially disables the click event.
             </p>
           </div>
         </div>
@@ -120,7 +123,7 @@
               I've setup a serializer for my implementation of the <code>Facility</code> class.
               This is defined in "astrosat/serializers/serializers_facilities.py".
               It does nothing fancy - it just includes all fields.
-              I don't need to worry about overriding <code>create</code> or <code>update</code>, since the spec indicates that I should use the Django Admin Console to update Facilties.
+              I don't need to worry about overriding <code>create</code> or <code>update</code>, since the spec indicates that I should use the Django Admin Console to update Facilities.
               Note that I do still use the <code>update</code> functionality for importing data into the database, but that is not exposed by the Django-Rest-Framework views.
               Those views are defined in "astrosat/views/api/views_api_facilities" (and bound to URLS in "astrosat/urls.py").
               Rather than write a custom permission class, I can just base my ViewSet off of <code>ReadOnlyModelViewSet</code>.
@@ -154,9 +157,13 @@
                   Also, the JSON coming from NASA includes some fields that I don't recognize.  In the end, I simply ignored whatever confused me (see the <code>valid_fields</code> variable in "astrosat/tasks.py).
                   In the real world, I would have tracked down a domain expert and asked for clarification.
                 </li>
-                <li>celery should probably be run as a service, but I didn't want to make any presumptions about your deploy environment</li>
                 <li>
-                  There is not full test coverage.  Again, given more time I would aim for this.
+                  Celery should probably be run as a service, but I didn't want to make any presumptions about your deploy environment, so I just run it manually.
+                  I did add a <code>celery_worker</code> command to the "manage.py" script to make doing this easier.
+                </li>
+                <li>
+                  There is not full test coverage.  In fact, there is very little test coverage, although the testing infrastructure is in-place.
+                  Again, given more time I would add more tests.
                 </li>
                 <li>
                   The "hacky" install script.  So, I'll admit that this was the hardest part of this exercise for me.
@@ -165,9 +172,9 @@
                 </li>
                 <li>
                   Tt's not <em>really</em> production because if it were I would serve static files outside of the Django Project.
-                  In fact, setting <code>debug</code> to False will cause loading </li> local static files to fail.
+                  In fact, setting <code>debug</code> to False can cause loading </li> local static files to fail.
                   However, I <em>do</em> want to run with <code>debug</code> set to False so that my custom error views ("astrosat/views/views_errors.py") will run.
-                  In order to get around this catch-22, I just run the server with <code>python astrosat/manage.py runserver --insecure</code>.
+                  In order to get around this catch-22, you could just run the server with <code>python astrosat/manage.py runserver --insecure</code>.
               </ul>
             </p>
           </div>
