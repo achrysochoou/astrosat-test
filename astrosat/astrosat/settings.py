@@ -40,7 +40,7 @@ broker=rabbitmq
 
 [help]
 email=allyn.treshansky@gmail.com
-code_url=https://github.com/allynt/astrosat
+code_url=https://github.com/allynt/astrosat-test
 
 [debug]
 debug=true
