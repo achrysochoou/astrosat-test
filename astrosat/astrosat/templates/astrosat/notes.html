@@ -20,14 +20,29 @@
         <div id="collapse-01" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-01">
           <div class="panel-body">
             <p>
-              Well, <em>maybe</em>.  But a lot of it is boilerplate code that I use for all of my Django projects.  This includes the following things:
-              <ul>
-                <li>an external configuration file</li>
-                <li>custom context processors</li>
-                <li>custom middleware (dynamic sites)</li>
-                <li>compression & pre-compiling static files</li>
-                <li>clever integration of Django & AngularJS</li>
-              </ul>
+              Well, <em>maybe</em>.  But a lot of it is boilerplate code that I use for all of my Django projects.
+            </p>
+            <p>
+              There is code for an external configuration file to be read by "astrostat/settings.py".
+              However, as the spec stated that installation should be done via a single script, I just hard-coded a <code>ConfigurationParser</code> in the file.
+            </p>
+            <p>
+              There are some custom context processors and middleware.  The former allows me to easily access settings variables in Django templates - things like "DEBUG" and "CDN".
+              The latter allows me to dynamically work out which type of <code>Site</code> I am dealing with; look at "astrosat/models/models_sites.py" for more details.
+            </p>
+            <p>
+              Speaking of CDN, I can choose to use a Content Delivery Network for some static resources or load them locally.
+              I do this as a matter of habit because I never know when I'll be stranded without a network connection but with a burning desire to code.
+            </p>
+            <p>
+              I also make use of <code>django-compressor</code> to minify and pre-compile static files.  It's not much code, so minification probably doesn't make much of a difference.
+              However, I like using LESS instead of pure CSS for styling so that has to be compiled somehow.  Incidentally, Bootstrap4 has moved to SASS so I guess I'll be learning that soon.
+            </p>
+            <p>
+              Speaking of Bootstrap, there is a lot more than pure Django in this project.  When I first started playing with Django, it's built-in forms were fine.
+              But as my models - and, by extension, forms - grew in complexity, the code inefficiently spent loads of time rendering forms.
+              These days, I only use Django Models in the backend and rely on Django-Rest-Framework to serialize them to JSON and serve them via a RESTful API.
+              On the frontend, I prefer AngularJS in my templates rather than pure Django.
             </p>
           </div>
         </div>
@@ -48,6 +63,7 @@
             <p>
               Originally, I used a "service" which retrieved the data published by NASA and sent it as a "signal" to a handler which did the actual ingestion work.
               Now I use an explicit "task" which performs all of those tasks together on a schedule defined by <code>celery</code>.
+              Incidentally, I find working with task brokers a bit confusing and so I wrote my own manage.py command (in "astrosat/management/commands/celery_worker.py") to do most of it for me.
             </p>
             <p>
               That task, however, can still be run outside of the schedule via a service using the view at "astrosat/views/services/views_services_facilities".
@@ -133,10 +149,20 @@
             <p>
               Here are the glaring omissions:
               <ul>
-                <li>location field on facility class</li>
+                <li>
+                  The "location" field on the Facility class confused me.  I am guessing it was some sort of geographic data, but I just ingested it as pure JSON.
+                  Also, the JSON coming from NASA includes some fields that I don't recognize.  In the end, I simply ignored whatever confused me (see the <code>valid_fields</code> variable in "astrosat/tasks.py).
+                  In the real world, I would have tracked down a domain expert and asked for clarification.
+                </li>
                 <li>celery should probably be run as a service, but I didn't want to make any presumptions about your deploy environment</li>
-                <li>full test coverage</li>
-                <li>"hacky" install script</li>
+                <li>
+                  There is not full test coverage.  Again, given more time I would aim for this.
+                </li>
+                <li>
+                  The "hacky" install script.  So, I'll admit that this was the hardest part of this exercise for me.
+                  I am used to just mirroring my github repository in local directory so that I can run <code>git pull</code> as things evolve.
+                  I wrote a "setup.py" function which creates a distribution that I can install via <code>pip</code>, but I'm not sure if I did everything the "official" Django way.
+                </li>
                 <li>
                   Tt's not <em>really</em> production because if it were I would serve static files outside of the Django Project.
                   In fact, setting <code>debug</code> to False will cause loading </li> local static files to fail.

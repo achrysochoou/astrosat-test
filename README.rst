@@ -18,6 +18,10 @@ Installation
 
 1. download and run `setup.sh <https://raw.githubusercontent.com/allynt/astrosat-test/master/setup.sh>`_
 
+ - start the installed virtual environment
+ - run celery in the background `astrosat-test celery_worker`
+ - run the server `astrosat-test runserver --insecure`
+
 2. but if that fails, clone the project from github and run it the normal Django way...
 
  -  make sure you have python3+
@@ -26,13 +30,13 @@ Installation
  -  install everything in requirements.txt to the virtualenv
  -  (note that "rcssmin" & "rjsmin" may need to be installed w/ the --without-c-extensions flag)
  -  run `python astrosat/manage.py migrate`
+ -  run `python astrosat/manage.py createsuperuser`
  -  run `python astrosat/manage.py loaddata astrosat/astrosat/fixtures/sites.json`
  -  run `python astrosat/manage.py loaddata astrosat/astrosat/fixtures/tasks.json`
  -  run `python astrosat/manage.py collectstatic --noinput`
  -  run `python astrosat/manage.py compress`
  -  run `python astrosat/manage.py celery_worker`
- -  run `python astrosat/manage.py runserver`
+ -  run `python astrosat/manage.py runserver --insecure`
 
 
 3. Visit http://localhost:8000 and enjoy
-
