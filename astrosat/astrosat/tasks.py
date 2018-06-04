@@ -13,7 +13,6 @@ def import_facilities():
     try:
         response = requests.get(NASA_FACILITIES_URL)
         contents = response.json()
-        print("FOOBAR")
     except RequestException as e:
         pass
 
