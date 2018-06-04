@@ -7,6 +7,10 @@ from astrosat.models.models_facilities import Facility
 
 
 class FacilityAdminForm(ModelForm):
+    """
+       Form to use in the DjangoAdmin for Facilties
+       Just includes all the fields
+    """
     class Meta:
         model = Facility
         fields = (
@@ -31,6 +35,12 @@ class FacilityAdminForm(ModelForm):
 
 
 class FacilityAdmin(admin.ModelAdmin):
+    """
+    Admin for Facilities
+    uses the above FacilityAdminForm
+    also turns off the ability to add/delete models
+    (both individually and in batch-mode)
+    """
     form = FacilityAdminForm
 
     def has_add_permission(self, request):

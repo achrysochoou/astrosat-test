@@ -7,6 +7,11 @@ from astrosat.constants import *
 
 class FacilityQuerySet(models.QuerySet):
 
+    """
+    A simple QS manager for Facilities
+    allows me to intuitively filter on active/inactive facilities
+    """
+
     def active(self):
         return self.filter(status="Active")
 
@@ -15,6 +20,11 @@ class FacilityQuerySet(models.QuerySet):
 
 
 class Facility(AstrosatModel):
+    """
+    A facility
+    All these fields come directly from the NASA API
+    A facility is uniquely identified by its "center" and "facility" fields
+    """
     class Meta:
         app_label = APP_LABEL
         abstract = False
@@ -36,10 +46,15 @@ class Facility(AstrosatModel):
     country = models.CharField(verbose_name="Country", max_length=SMALL_STRING)
     contact = models.CharField(verbose_name="Contact", max_length=SMALL_STRING)
     phone = models.CharField(verbose_name="Phone", max_length=SMALL_STRING)
+    # TODO: WHAT THE HELL IS A LOCATION FIELD?
 #    location = models.Field
     city = models.CharField(verbose_name="City", max_length=SMALL_STRING)
     state = models.CharField(verbose_name="State", max_length=SMALL_STRING)
     zipcode = models.CharField(verbose_name="Zipcode", max_length=SMALL_STRING)
 
     def __str__(self):
+        """
+        A pretty way of printing a facility
+        :return:
+        """
         return "{0}: {1}".format(self.center, self.facility)

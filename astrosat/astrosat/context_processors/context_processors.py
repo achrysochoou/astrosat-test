@@ -18,6 +18,11 @@ def astrosat_debug(context):
 
 
 def astrosat_cdn(context):
+    """
+    simple context processor that allows me to access the CDN setting from a template
+    :param context:
+    :return:
+    """
     return {
         "cdn": settings.CDN
     }

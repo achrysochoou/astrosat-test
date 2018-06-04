@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from astrosat.models.models_facilities import Facility
 
+
 class FacilitySerializer(serializers.ModelSerializer):
+    """
+    Django-Rest-Framework for Facilities
+    Does nothing fancy, just includes all the fields
+    """
 
     class Meta:
         model = Facility

@@ -20,7 +20,7 @@ Installation
 
  - start the installed virtual environment
  - run celery in the background `astrosat-test celery_worker`
- - run the server `astrosat-test runserver --insecure`
+ - run the server `astrosat-test runserver`
 
 2. but if that fails, clone the project from github and run it the normal Django way...
 
@@ -28,7 +28,7 @@ Installation
  -  make sure you have rabbitmq
  -  create a virtualenv
  -  install everything in requirements.txt to the virtualenv
- -  (note that "rcssmin" & "rjsmin" may need to be installed w/ the --without-c-extensions flag)
+ -  (note that "rcssmin" & "rjsmin" may need to be installed w/ the "--without-c-extensions" flag)
  -  run `python astrosat/manage.py migrate`
  -  run `python astrosat/manage.py createsuperuser`
  -  run `python astrosat/manage.py loaddata astrosat/astrosat/fixtures/sites.json`
@@ -36,7 +36,7 @@ Installation
  -  run `python astrosat/manage.py collectstatic --noinput`
  -  run `python astrosat/manage.py compress`
  -  run `python astrosat/manage.py celery_worker`
- -  run `python astrosat/manage.py runserver --insecure`
+ -  run `python astrosat/manage.py runserver`
 
 
 3. Visit http://localhost:8000 and enjoy

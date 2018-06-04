@@ -14,6 +14,9 @@ from astrosat.constants import *
 
 
 class AstrosatSiteTypes(Enum):
+    """
+    I may include different things in a template based on the type of site
+    """
     LOCAL = 1  # auto()
     TEST = 2  # auto()
     DEV = 3  # auto()
@@ -21,6 +24,12 @@ class AstrosatSiteTypes(Enum):
 
 
 class AstrosatSite(models.Model):
+    """
+    Here is a custom site class that just includes the above enumeration value
+    It has a one-to-one relationship w/ the built-in Django Site
+    This means that every site (potentially) has a type
+    See "astrosat.middleware.dynamic_sites" for more information.
+    """
 
     class Meta:
         app_label = APP_LABEL

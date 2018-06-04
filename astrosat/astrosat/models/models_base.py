@@ -5,6 +5,10 @@ from astrosat import APP_LABEL
 
 
 class AstrosatModel(models.Model):
+    """
+    base class for all my models
+    includes the get_field fn below
+    """
     class Meta:
         app_label = APP_LABEL
         abstract = True

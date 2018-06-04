@@ -11,6 +11,9 @@ __author__ = 'allyn.treshansky'
 
 
 class SiteAdminForm(ModelForm):
+    """
+    form to use with the Django Admin for Sites
+    """
     class Meta:
         model = Site
         fields = ("name", "domain")
@@ -33,6 +36,9 @@ class SiteAdminForm(ModelForm):
 
 
 class AstrosatSiteInline(admin.StackedInline):
+    """
+    Inline form to show AstrosatSite specific details on the Site Admin pages
+    """
     model = AstrosatSite
     can_delete = False
     verbose_name = "Astrosat Site Type"

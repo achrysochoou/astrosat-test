@@ -1,17 +1,4 @@
 """astrosat URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
 from django.contrib import admin
@@ -23,6 +10,8 @@ from astrosat.views.services import *
 from astrosat.views.api import *
 
 
+# ALL OF THE (NON DJANGO-REST-FRAMEWORK) SERVICES..
+
 service_urls = [
     # getting pending messages...
     path('messages/', get_django_messages, name="get_messages"),
@@ -30,6 +19,8 @@ service_urls = [
     # ingesting new facilities...
     path('import_facilities/', import_facilities_now, name="import_facilities"),
 ]
+
+# ALL OF THE DJANGO-REST-FRAMEWORK VIEWS...
 
 api_urls = [
     re_path(r'^$', api_root),
@@ -41,10 +32,14 @@ api_urls = [
 
 admin.autodiscover()
 
+# ERROR HANDLING...
+
 handler404 = 'astrosat.views.page_not_found'
 handler500 = 'astrosat.views.server_error'
 handler403 = 'astrosat.views.permission_denied'
 handler400 = 'astrosat.views.bad_request'
+
+# PUTTING IT ALL TOGETHER...
 
 urlpatterns = [
 
@@ -54,17 +49,23 @@ urlpatterns = [
         'path': 'favicon.ico',
     }),
 
+    # admin...
     path('admin/', admin.site.urls),
 
+    # authentication...
     path('accounts/', include('django.contrib.auth.urls')),
 
+    # RESTful stuff...
     path('services/', include(service_urls)),
     path('api/', include(api_urls)),
 
+    # the notes page (obviously)...
     path('notes/', notes, name="notes"),
 
+    # a silly page for testing (obviously)...
     path('test/', test_view, name="test"),
 
+    # the index page (obviosly)...
     path('', index, name="index"),
 
 ]

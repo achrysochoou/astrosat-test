@@ -6,6 +6,10 @@ from astrosat import APP_LABEL
 
 
 class Command(BaseCommand):
+    """
+    Playing w/ celery is a bit confusing
+    this class adds a Django-Command ("celery_worker") to do it for you
+    """
 
     help = "Convenience function for running celery for the {0} app".format(APP_LABEL)
 

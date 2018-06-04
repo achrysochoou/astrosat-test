@@ -1,5 +1,6 @@
 from .celery import app as celery_app
-import os, sys
+import os
+import sys
 
 ###########################
 # what is the app called? #
@@ -48,4 +49,3 @@ def manage_django():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
